@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: slicedb
+  sharding:
+    datasources:
+      ds0:
+        url: jdbc:mysql://192.168.0.100:3316/sharding?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+      ds1:
+        url: jdbc:mysql://192.168.0.100:3326/sharding?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+      ds2:
+        url: jdbc:mysql://192.168.0.100:3336/sharding?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+    tables:
+      user:
+        actualDataNodes: ds${0..2}.user${0..4}
+        dataBaseStrategy:
+          shardingColumn: user_id
+          algorithmExpression: ds${user_id % 3}
+        tableStrategy:
+          shardingColumn: user_id
+          algorithmExpression: user${user_id % 5}
+
